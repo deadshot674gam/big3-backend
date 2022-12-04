@@ -6,6 +6,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.json.JSONObject;
 
+
+/**
+ * Class created for Defining Salary of each employee, contains every element inside of it, which a Salary contains
+ * @author Divyanshu Tiwari
+ */
+
 public class Salary {
     private float baseAmount;
     private float internetAllowance;

@@ -4,15 +4,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.big3anime.backend.finance.Expense;
 
-enum PartnerType {
-    MEDICAL,
-    TECHNOLOGY,
-    MEDIA,
-    MEALS,
-    INFRASTRUCTURE,
-    WORKSPACE
-}
-
 public class Partner {
     private PartnerType partnerType;
     private String partnerName;
@@ -59,4 +50,13 @@ public class Partner {
     }
 
     
+}
+
+enum PartnerType {
+    MEDICAL,
+    TECHNOLOGY,
+    MEDIA,
+    MEALS,
+    INFRASTRUCTURE,
+    WORKSPACE
 }
