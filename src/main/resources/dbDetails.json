@@ -1,0 +1,7 @@
+{
+    "dbCluster" : "deadshotcluster.qppinb9.mongodb.net",
+    "dbUserName" : "admin",
+    "dbPassword" : "Admin@123#",
+    "dbSchema" : "Big3-DB",
+    "encryptionEnabled" :  false
+}

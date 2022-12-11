@@ -3,10 +3,9 @@ package com.big3anime.backend.profiles;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.bson.Document;
 
 import com.big3anime.backend.finance.Salary;
-
-
 
 enum Department {
     QUALITY,
@@ -16,9 +15,8 @@ enum Department {
     MARKETTING,
     SUPPLYCHAIN,
     HUMANRESOURCE,
-    FINANCE    
+    FINANCE
 }
-
 
 public class Employee {
     private String employeeid;
@@ -37,8 +35,11 @@ public class Employee {
 
     private Salary salary;
 
-    public Employee(String employeeid, String firstname, String lastname, String workemail, String personalEmail,
-            Employee reportingManager, String division, Department department, String title, Date doj) {
+    public Employee(String employeeid, String firstname, String lastname, String workemail, String personalEmail, Employee reportingManager, String division, Department department, String title, Date doj) {
+
+        if(employeeid== null){
+            throw new NullPointerException("Employeeid cannot be null");
+        }
         this.employeeid = employeeid;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -51,22 +52,42 @@ public class Employee {
         this.dateOfJoining = doj;
     }
 
-    public Employee() {
-        this.employeeid = null;
-        this.firstname = null;
-        this.lastname = null;
-        this.workemail = null;
-        this.personalEmail = null;
-        this.reportingManager = null;
-        this.division = null;
-        this.department = null;
-        this.title = null;
-    }
-
     public Employee(Employee emp) {
         this(emp.getEmployeeid(), emp.getFirstname(), emp.getLastname(), emp.getWorkemail(), emp.getPersonalEmail(),
                 emp.getReportingManager(), emp.getDivision(), emp.getDepartment(), emp.getTitle(),
                 emp.getDateOfJoining());
+    }
+
+    public Employee(Document doc){
+        this((String)doc.get("_id"),
+        (String)doc.get("e_firstname"),
+        (String)doc.get("e_lastname"),
+        (String)doc.get("e_workEmail"),
+        (String)doc.get("e_personalEmail"),
+        (Employee)doc.get("e_reportingManager"),
+        (String)doc.get("e_division"),
+        (Department)doc.get("e_department"),
+        (String)doc.get("e_title"),
+        (Date)doc.get("e_dateOfJoining"));
+    }
+
+
+
+    public Document toDocument(){
+        return new Document().append("_id", this.employeeid)
+        .append("e_firstname", this.firstname)
+        .append("e_lastname", this.lastname)
+        .append("e_workEmail", this.workemail)
+        .append("e_title", this.title)
+        .append("e_personalEmail", this.personalEmail)
+        .append("e_reportingManager", this.reportingManager.toDocument())
+        .append("e_division", this.division)
+        .append("e_department", this.department)
+        .append("e_dateOfJoining", this.dateOfJoining)
+        .append("e_terminateDate", this.terminateDate)
+        .append("e_salary", this.salary)
+        .append("e_bankDetails", this.bankDetails);
+        
     }
 
     public String getDivision() {
@@ -86,7 +107,7 @@ public class Employee {
     }
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public void setTitle(String title) {
@@ -154,19 +175,19 @@ public class Employee {
     }
 
     public Date getDateOfJoining() {
-        return dateOfJoining;
+        return this.dateOfJoining;
     }
 
     public Date getTerminateDate() {
-        return terminateDate;
+        return this.terminateDate;
     }
 
     public Salary getSalary() {
-        return salary;
+        return this.salary;
     }
 
     public ConcurrentHashMap<String, String> getBankDetails() {
-        return bankDetails;
+        return this.bankDetails;
     }
 
     @Override
