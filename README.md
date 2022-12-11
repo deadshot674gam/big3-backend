@@ -15,7 +15,7 @@
 
 ---
 
-<p align="center"> This is a Office Management System Backend Service. Once Integrated with FrontEnd , will be a Full Fledged Service
+<p align="center"> This is a Office Management System Backend Service. Once Integrated with FrontEnd , will be a Full Fledged WebApp
     <br> 
 </p>
 
