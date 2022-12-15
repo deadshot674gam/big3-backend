@@ -7,18 +7,19 @@ import org.bson.Document;
 
 import com.big3anime.backend.finance.Salary;
 
-enum Department {
-    QUALITY,
-    DEVELOPMENT,
-    DEVOPS,
-    SALES,
-    MARKETTING,
-    SUPPLYCHAIN,
-    HUMANRESOURCE,
-    FINANCE
-}
+
 
 public class Employee {
+    public enum Department {
+        QUALITY,
+        DEVELOPMENT,
+        DEVOPS,
+        SALES,
+        MARKETTING,
+        SUPPLYCHAIN,
+        HUMANRESOURCE,
+        FINANCE
+    }
     private String employeeid;
     private String firstname;
     private String lastname;
@@ -80,7 +81,7 @@ public class Employee {
         .append("e_workEmail", this.workemail)
         .append("e_title", this.title)
         .append("e_personalEmail", this.personalEmail)
-        .append("e_reportingManager", this.reportingManager.toDocument())
+        .append("e_reportingManager",(this.reportingManager == null)? null: this.reportingManager.toDocument())
         .append("e_division", this.division)
         .append("e_department", this.department)
         .append("e_dateOfJoining", this.dateOfJoining)

@@ -46,8 +46,8 @@ public class DataBaseUtil {
     private DataBaseUtil() {
         try {
             JSONObject dbDetails = new JSONObject(
-                    new JSONTokener(DataBaseUtil.class.getResourceAsStream("src/main/resources/dbDetails.json")));
-
+                    new JSONTokener(DataBaseUtil.class.getResourceAsStream("/dbDetails.json")));
+            this.dbCluster = dbDetails.getString("dbCluster");
             this.dbUser = URLEncoder.encode(dbDetails.getString("dbUserName"), "UTF-8");
             this.dbPass = URLEncoder.encode(dbDetails.getString("dbPassword"), "UTF-8");
             this.dbSchema = dbDetails.getString("dbSchema");
