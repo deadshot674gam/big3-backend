@@ -83,7 +83,7 @@ public class Employee {
         .append("e_personalEmail", this.personalEmail)
         .append("e_reportingManager",(this.reportingManager == null)? null: this.reportingManager.toDocument())
         .append("e_division", this.division)
-        .append("e_department", this.department)
+        .append("e_department", this.department.toString())
         .append("e_dateOfJoining", this.dateOfJoining)
         .append("e_terminateDate", this.terminateDate)
         .append("e_salary", this.salary)
