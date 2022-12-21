@@ -44,4 +44,17 @@ public class DataBaseUtilTest {
 
     }
 
+    @Test
+    public void deleteDocumentsFromCollectionTest() {
+        List<Document> empList = new ArrayList<>();
+
+        long starttime = System.currentTimeMillis();
+
+        long resultSize = DataBaseUtil.INSTANCE.deleteDocumentsFromCollection("Employees",new Document()
+                .append("e_workEmail", "workemail@worked.com"));
+
+        System.out.println(System.currentTimeMillis()-starttime);
+        System.out.println(resultSize);
+    }
+
 }
