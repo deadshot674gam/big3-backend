@@ -1,5 +1,6 @@
 package com.big3anime.database;
 
+import org.bson.Document;
 import org.junit.Test;
 
 import com.big3anime.backend.profiles.Employee;
@@ -7,7 +8,9 @@ import static com.big3anime.backend.profiles.Employee.Department;
 import static org.junit.Assert.assertTrue;
 import com.big3anime.database.DataBaseUtil;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class DataBaseUtilTest {
 
@@ -25,6 +28,33 @@ public class DataBaseUtilTest {
         System.out.println(ans);
 
         assertTrue(ans);
+    }
+
+    @Test
+    public void addDocumentsToCollectionTest() {
+        List<Document> empList = new ArrayList<>();
+        for(int i=0;i<100000;i++){
+            Employee emp = new Employee("dtiwari"+i, "Divyanshu"+i, "Tiwari"+i, "workemail@worked.com", "personalemail@worked.com", null, "QA", Department.QUALITY, "Associate Software Engineer", new Date());
+            empList.add(emp.toDocument());
+        }
+        long starttime = System.currentTimeMillis();
+        boolean ans = DataBaseUtil.INSTANCE.addDocumentsToCollection("Employees",empList);
+        System.out.println(System.currentTimeMillis()-starttime);
+        System.out.println(ans);
+
+    }
+
+    @Test
+    public void deleteDocumentsFromCollectionTest() {
+        List<Document> empList = new ArrayList<>();
+
+        long starttime = System.currentTimeMillis();
+
+        long resultSize = DataBaseUtil.INSTANCE.deleteDocumentsFromCollection("Employees",new Document()
+                .append("e_workEmail", "workemail@worked.com"));
+
+        System.out.println(System.currentTimeMillis()-starttime);
+        System.out.println(resultSize);
     }
 
 }

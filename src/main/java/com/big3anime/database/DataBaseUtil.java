@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.MongoClientSettings;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.bson.Document;
@@ -34,7 +35,7 @@ public class DataBaseUtil {
     private String dbUser;
     private String dbPass;
     private String dbCluster;
-    private static MongoDatabase db;
+    private MongoDatabase db;
     private String dbSchema;
     private static final Logger LOGGER = LogManager.getLogger(DataBaseUtil.class);
 
@@ -63,7 +64,7 @@ public class DataBaseUtil {
 
         this.dbClient = MongoClients.create(this.dbUri);
 
-        DataBaseUtil.db = this.dbClient.getDatabase(this.dbSchema);
+        this.db = this.dbClient.getDatabase(this.dbSchema);
 
     }
 
@@ -82,7 +83,7 @@ public class DataBaseUtil {
         }
 
         try {
-            MongoCollection<Document> collection = DataBaseUtil.db.getCollection(collectionName);
+            MongoCollection<Document> collection = this.db.getCollection(collectionName);
             collection.insertOne(doc);
         } catch (IllegalArgumentException ex) {
             LOGGER.error("Caught Exception while writing document to Collection name : {} -> {}, ", collectionName, ex);
@@ -100,7 +101,7 @@ public class DataBaseUtil {
         }
 
         try {
-            MongoCollection<Document> collection = DataBaseUtil.db.getCollection(collectionName);
+            MongoCollection<Document> collection = this.db.getCollection(collectionName);
             collection.insertMany(docs);
         } catch (IllegalArgumentException ex) {
             LOGGER.error("Caught Exception while writing documents to Collection name : {} -> {}, ", collectionName,
@@ -119,7 +120,7 @@ public class DataBaseUtil {
     public List<Document> getDocumentsFromCollection(String collectionName, Map<String, Object> conditions){
         List<Document> results = new ArrayList<>();
         try {
-            MongoCollection<Document> collection = DataBaseUtil.db.getCollection(collectionName);
+            MongoCollection<Document> collection = this.db.getCollection(collectionName);
             BasicDBObject whereQuery = new BasicDBObject(conditions);
 
             MongoCursor<Document> dbCursor =  collection.find(whereQuery).iterator();
@@ -140,7 +141,7 @@ public class DataBaseUtil {
     public Long deleteDocumentsFromCollection(String collectionName, Map<String, Object> conditions){
         Long resultSize;
         try {
-            MongoCollection<Document> collection = DataBaseUtil.db.getCollection(collectionName);
+            MongoCollection<Document> collection = this.db.getCollection(collectionName);
             BasicDBObject whereQuery = new BasicDBObject(conditions);
 
             resultSize = collection.deleteMany(whereQuery).getDeletedCount();
@@ -157,7 +158,7 @@ public class DataBaseUtil {
 
     public boolean updateDocumentFromCollection(String collectionName, Map<String, Object> conditions, Document updates){
         try {
-            MongoCollection<Document> collection = DataBaseUtil.db.getCollection(collectionName);
+            MongoCollection<Document> collection = this.db.getCollection(collectionName);
             BasicDBObject whereQuery = new BasicDBObject(conditions);
 
             collection.updateOne(whereQuery,updates);
